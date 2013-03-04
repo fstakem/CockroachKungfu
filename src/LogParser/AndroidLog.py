@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+#
+#   AndroidLog.py
+#   By: Fred Stakem
+#   Created: 3.3.13
+#
+# ------------------------------------------------------
+
+# Libs
+from Log import Log
+
+class AndroidLog(Log):
+    
+    def __init__(self, name='Android Log', lines=[]):
+        self.name=name
+        self.lines=lines
+    
+    def __str__(self):
+        return 'Log: ' + self.name + ' has ' + str(len(self.lines)) + ' lines.'
+    
+    def __repr__(self):
+        return str(self)
