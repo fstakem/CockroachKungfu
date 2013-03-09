@@ -9,4 +9,7 @@
 # Libs
 
 class LogLine(object):
-    pass
+    """This class represents a log line where parsed data is held."""
+    
+    def __init__(self):
+        pass

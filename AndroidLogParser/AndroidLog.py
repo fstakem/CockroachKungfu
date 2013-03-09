@@ -7,7 +7,7 @@
 # ------------------------------------------------------
 
 # Libs
-from Log import Log
+from LogParser import Log
 
 class AndroidLog(Log):
     
