@@ -35,7 +35,7 @@ class Symbol(object):
                     'right curly brace':    [ '}' ],
                     'left brace':           [ '[' ],
                     'right brace':          [ ']' ],
-                    'decimal point':        [ '.' ],
+                    'dot':                  [ '.' ],
                     'colon':                [ ':' ],
                     'exponent':             [ 'e', 'E' ],
                     'bar':                  [ '|' ]
@@ -60,7 +60,7 @@ class Symbol(object):
     RIGHT_CURLY_BRACE = Symbol.symbol_table['right curly brace']
     LEFT_BRACE = Symbol.symbol_table['left brace']
     RIGHT_BRACE = Symbol.symbol_table['right brace']
-    DECIMAL_POINT = Symbol.symbol_table['decimal point']
+    DOT = Symbol.symbol_table['dot']
     COLON = Symbol.symbol_table['colon']
     EXPONENT = Symbol.symbol_table['exponent']
     BAR = Symbol.symbol_table['bar'] 
@@ -132,8 +132,8 @@ class Symbol(object):
         cls.isMatch(symbol, cls.RIGHT_BRACE)
         
     @classmethod
-    def isDecimalPoint(cls, symbol):
-        cls.isMatch(symbol, cls.DECIMAL_POINT)
+    def isDot(cls, symbol):
+        cls.isMatch(symbol, cls.DOT)
         
     @classmethod
     def isColon(cls, symbol):

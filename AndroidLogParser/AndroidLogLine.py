@@ -8,13 +8,10 @@
 
 # Libs
 import datetime
-from LogLine import LogLine
+import Utilities
+from LogParser import LogLine
 
-def enum(*sequential, **named):
-    enums = dict(zip(sequential, range(len(sequential))), **named)
-    return type('Enum', (), enums)
-
-AndroidLogLevel = enum('Verbose', 'Info', 'Debug', 'Warn', 'Error', 'Assert')
+AndroidLogLevel = Utilities.enum('Verbose', 'Info', 'Debug', 'Warn', 'Error', 'Assert')
 
 class AndroidLogLine(LogLine):
     

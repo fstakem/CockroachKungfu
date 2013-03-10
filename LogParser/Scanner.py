@@ -11,6 +11,7 @@ import logging
 
 # Classes
 import Utilities
+from Symbol import Symbol
 
 class Scanner(object):
     """This class represents a scanner that scans a log line outputting tokens."""
@@ -18,13 +19,24 @@ class Scanner(object):
     # Setup logging
     logger = Utilities.getLogger('Scanner')
     
-    def __init__(self):
+    def __init__(self, source):
+        self.source = source
         self.current_symbol = None
         self.start_position = None
         self.current_position = None
         self.symbol_buffer = None
         
-    def scan(self, source):
+    def reset(self):
+        self.current_symbol = None
+        self.start_position = None
+        self.current_position = None
+        self.symbol_buffer = None
+        
+    def scan(self):
         pass
-       
+    
+    def acceptSymbol(self):
+        self.symbol_buffer += self.current_symbol
+        self.current_symbol, self.current_position = self.source.getNextSymbol()
+            
  

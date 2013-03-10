@@ -11,12 +11,11 @@
 class Parser(object):
     """This class represents a parser to parse log files."""
     
-    def __init__(self, scanner, source):
+    def __init__(self, scanner):
         self.scanner = scanner
-        self.source = source
         self.current_token = None
     
-    def parseLog(self, log_lines):
+    def parseLog(self, name, log_lines):
         pass
     
     def parseLogLine(self, log_line):

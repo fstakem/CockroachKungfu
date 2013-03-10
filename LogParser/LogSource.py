@@ -19,6 +19,12 @@ class LogSource(object):
     # Setup logging
     logger = Utilities.getLogger('LogSource')
     
+    def __init__(self, name='Generic Source', symbols=''):
+        self.name = name
+        self.symbols = symbols
+        self.last_symbol = None
+        self.current_position = -1
+    
     def getNextSymbol(self):
         pass
         
