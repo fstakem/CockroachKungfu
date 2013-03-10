@@ -27,7 +27,11 @@ class Token(object):
         self.end_position = end_position
       
     def __str__(self):
-        return 'Type: %s Data: %s Line: %s' % (TokenType.prettyPrint(self.type), self.data, str(self.position[0]))
+        return 'Type: %s Data: %s Position: %s to %s' % (TokenType.pprint(self.type), 
+                                                         self.data, 
+                                                         str(self.start_position),
+                                                         str(self.end_position))
     
-    
+    def __repr__(self):
+        return str(self)
     

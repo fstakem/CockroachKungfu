@@ -27,12 +27,9 @@ class TokenType(object):
                      TokenType.NONE:                'None',
                      TokenType.OBJECT:              'Object',
                     }
-    
-    def __init__(self):
-        pass
-    
+     
     @classmethod
-    def prettyPrint(cls, type):
+    def pprint(cls, type):
         return cls.readable_name[type]
     
     
