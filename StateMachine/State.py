@@ -11,7 +11,7 @@
 class State(object):
     """This class represents a state of a state machine."""
     
-    def __init__(self, name='Generic State', state_machine=None, transition_table={}):
+    def __init__(self, name='Generic State', state_machine=None, transition_table=[]):
         self.name = ''
         self.state_machine = state_machine
         self.transition_table = transition_table
