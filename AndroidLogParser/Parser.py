@@ -1,6 +1,6 @@
 # ------------------------------------------------------
 #
-#   AndroidParser.py
+#   Parser.py
 #   By: Fred Stakem
 #   Created: 3.5.13
 #
@@ -10,21 +10,21 @@
 from datetime import *
 import Utilities
 from LogParser import Symbol
-from LogParser import Parser
+from LogParser import Parser as BaseParser
 from LogParser import ParseException
-from AndroidLogLine import AndroidLogLine
-from AndroidLog import AndroidLog
-from AndroidScanner import AndroidScannerState
-from AndroidTokenType import AndroidTokenType
-from AndroidLogLine import AndroidLogLevel
+from LogLine import LogLine
+from Log import Log
+from Scanner import ScannerState
+from TokenType import TokenType
+from LogLine import LogLevel
 
-class AndroidParser(Parser):
+class Parser(BaseParser):
     
     # Setup logging
-    logger = Utilities.getLogger('AndroidParser')
+    logger = Utilities.getLogger('AndroidLogParser::Parser')
     
     def __init__(self, scanner, source):
-        super(AndroidParser, self).__init__(scanner, source)
+        super(Parser, self).__init__(scanner, source)
     
     def parseLog(self, name, log_lines):
         log_lines = []
@@ -35,31 +35,31 @@ class AndroidParser(Parser):
             except ParseException, e:
                 errors.append( (i, e.msg()) )
             
-        android_log = AndroidLog()
+        android_log = Log()
         android_log.name = name
         android_log.lines = log_lines
         
         return (android_log, errors) 
     
     def parseLogLine(self, log_line):
-        android_log_line = AndroidLogLine()
+        android_log_line = LogLine()
         
         while True:
             token, symbol, state = self.scanner.scan()
         
-            if token == None and Symbol.isEol(symbol) and state == AndroidScannerState.ParsedMsg:
+            if token == None and Symbol.isEol(symbol) and state == ScannerState.ParsedMsg:
                 return android_log_line
-            elif token.type == AndroidTokenType.DATE:
+            elif token.type == TokenType.DATE:
                 android_log_line.timestamp = self.parseDateTime(token)
-            elif token.type == AndroidTokenType.PID:
+            elif token.type == TokenType.PID:
                 android_log_line.pid = self.parsePid(token)
-            elif token.type == AndroidTokenType.TID:
+            elif token.type == TokenType.TID:
                 android_log_line.tid = self.parseTid(token)
-            elif token.type == AndroidTokenType.LEVEL:
+            elif token.type == TokenType.LEVEL:
                 android_log_line.level = self.parseLevel(token)
-            elif token.type == AndroidTokenType.SOURCE:
+            elif token.type == TokenType.SOURCE:
                 android_log_line.source = self.parseSource(token)
-            elif token.type == AndroidTokenType.MSG:
+            elif token.type == TokenType.MSG:
                 android_log_line.msg = self.parseMsg(token)
             else:
                 raise ParseException('Unknown token returned by the scanner.')
@@ -106,17 +106,17 @@ class AndroidParser(Parser):
     
     def parseLevel(self, token):
         if token.data == 'V':
-            return AndroidLogLevel.Verbose
+            return LogLevel.Verbose
         elif token.data == 'I':
-            return AndroidLogLevel.Info
+            return LogLevel.Info
         elif token.data == 'D':
-            return AndroidLogLevel.Debug
+            return LogLevel.Debug
         elif token.data == 'W':
-            return AndroidLogLevel.Warn
+            return LogLevel.Warn
         elif token.data == 'E':
-            return AndroidLogLevel.Error
+            return LogLevel.Error
         elif token.data == 'A':
-            return AndroidLogLevel.Assert
+            return LogLevel.Assert
         else:
             raise ParseException('Error parsing level token: %s' % str(token))
     

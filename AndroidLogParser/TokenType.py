@@ -1,23 +1,20 @@
 # ------------------------------------------------------
 #
-#   AndroidTokenType.py
+#   TokenType.py
 #   By: Fred Stakem
 #   Created: 3.9.13
 #
 # ------------------------------------------------------
 
 
-# Libraries
-import logging
-
-# Classes
+# Libs
 import Utilities
 
-class AndroidTokenType(object):
+class TokenType(object):
     """This class represents a android token type that is found in a scanned file."""
        
     # Setup logging
-    logger = Utilities.getLogger('AndroidTokenType')
+    logger = Utilities.getLogger('AndroidLogParser::TokenType')
     
     # Class constants
     NONE = 0
@@ -29,13 +26,13 @@ class AndroidTokenType(object):
     MSG = 6
     
     readable_name = {
-                     AndroidTokenType.NONE:         'None',
-                     AndroidTokenType.DATE:         'Date',
-                     AndroidTokenType.PID:          'Pid',
-                     AndroidTokenType.TID:          'Tid',
-                     AndroidTokenType.LEVEL:        'Level',
-                     AndroidTokenType.SOURCE:       'Source',
-                     AndroidTokenType.MSG:          'Msg',
+                     TokenType.NONE:         'None',
+                     TokenType.DATE:         'Date',
+                     TokenType.PID:          'Pid',
+                     TokenType.TID:          'Tid',
+                     TokenType.LEVEL:        'Level',
+                     TokenType.SOURCE:       'Source',
+                     TokenType.MSG:          'Msg',
                     }
     
     def __init__(self):

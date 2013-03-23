@@ -1,28 +1,25 @@
 # ------------------------------------------------------
 #
-#   AndroidSource.py
+#   LogSource.py
 #   By: Fred Stakem
 #   Created: 3.9.13
 #
 # ------------------------------------------------------
 
 
-# Libraries
-import logging
-from LogParser import LogSource
+# Libs
+import Utilities
+from LogParser import LogSource as BaseLogSource
 from LogParser import Symbol
 
-# Classes
-import Utilities
-
-class AndroidSource(LogSource):
+class LogSource(BaseLogSource):
     """This class represents an android source for giving symbols to the scanner."""
        
     # Setup logging
-    logger = Utilities.getLogger('AndroidSource')
+    logger = Utilities.getLogger('AndroidLogParser::LogSource')
     
     def __init__(self, name='Android Source', symbols=''):
-        super(AndroidSource, self).__init__(name, symbols)
+        super(LogSource, self).__init__(name, symbols)
     
     def getNextSymbol(self):
         self.current_position += 1

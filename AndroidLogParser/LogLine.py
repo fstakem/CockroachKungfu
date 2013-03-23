@@ -1,6 +1,6 @@
 # ------------------------------------------------------
 #
-#   AndroidLogLine.py
+#   LogLine.py
 #   By: Fred Stakem
 #   Created: 3.3.13
 #
@@ -9,14 +9,14 @@
 # Libs
 import datetime
 import Utilities
-from LogParser import LogLine
+from LogParser import LogLine as BaseLogLine
 
-AndroidLogLevel = Utilities.enum('Verbose', 'Info', 'Debug', 'Warn', 'Error', 'Assert')
+LogLevel = Utilities.enum('Verbose', 'Info', 'Debug', 'Warn', 'Error', 'Assert')
 
-class AndroidLogLine(LogLine):
+class LogLine(BaseLogLine):
     
     def __init__(self, timestamp=datetime.datetime.now(), pid=-1, 
-                 tid=-1, level=AndroidLogLevel.Verbose, source='Main', 
+                 tid=-1, level=LogLevel.Verbose, source='Main', 
                  msg='Android log msg.'):
         self.timestamp = timestamp
         self.pid = pid

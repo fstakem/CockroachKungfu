@@ -1,15 +1,15 @@
 # ------------------------------------------------------
 #
-#   AndroidLog.py
+#   Log.py
 #   By: Fred Stakem
 #   Created: 3.3.13
 #
 # ------------------------------------------------------
 
 # Libs
-from LogParser import Log
+from LogParser import Log as BaseLog
 
-class AndroidLog(Log):
+class Log(BaseLog):
     
     def __init__(self, name='Android Log', lines=[]):
         self.name=name
