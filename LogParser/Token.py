@@ -18,7 +18,7 @@ class Token(object):
     """This class represents a token that is found in a scanned line."""
        
     # Setup logging
-    logger = Utilities.getLogger('Token')
+    logger = Utilities.getLogger('LogParser::Token')
     
     def __init__(self, type=TokenType.NONE, data=None, start_position=-1, end_position=-1):
         self.type = type

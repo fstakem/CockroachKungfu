@@ -6,18 +6,14 @@
 #
 # ------------------------------------------------------
 
-
-# Libraries
-import logging
-
-# Classes
+# Libs
 import Utilities
 
 class TokenType(object):
     """This class represents a token type that is found in a scanned file."""
        
     # Setup logging
-    logger = Utilities.getLogger('TokenType')
+    logger = Utilities.getLogger('LogParser::TokenType')
     
     # Class constants
     NONE = 0

@@ -7,7 +7,7 @@
 # ------------------------------------------------------
 
 # Libs
-from datetime import *
+from datetime import datetime
 import Utilities
 from LogParser import Symbol
 from LogParser import Parser as BaseParser
@@ -35,32 +35,32 @@ class Parser(BaseParser):
             except ParseException, e:
                 errors.append( (i, e.msg()) )
             
-        android_log = Log()
-        android_log.name = name
-        android_log.lines = log_lines
+        log = Log()
+        log.name = name
+        log.lines = log_lines
         
-        return (android_log, errors) 
+        return (log, errors) 
     
     def parseLogLine(self, log_line):
-        android_log_line = LogLine()
+        log_line = LogLine()
         
         while True:
             token, symbol, state = self.scanner.scan()
         
             if token == None and Symbol.isEol(symbol) and state == ScannerState.ParsedMsg:
-                return android_log_line
-            elif token.type == TokenType.DATE:
-                android_log_line.timestamp = self.parseDateTime(token)
+                return log_line
+            elif token.type == TokenType.TIMESTAMP:
+                log_line.timestamp = self.parseDateTime(token)
             elif token.type == TokenType.PID:
-                android_log_line.pid = self.parsePid(token)
+                log_line.pid = self.parsePid(token)
             elif token.type == TokenType.TID:
-                android_log_line.tid = self.parseTid(token)
+                log_line.tid = self.parseTid(token)
             elif token.type == TokenType.LEVEL:
-                android_log_line.level = self.parseLevel(token)
+                log_line.level = self.parseLevel(token)
             elif token.type == TokenType.SOURCE:
-                android_log_line.source = self.parseSource(token)
+                log_line.source = self.parseSource(token)
             elif token.type == TokenType.MSG:
-                android_log_line.msg = self.parseMsg(token)
+                log_line.msg = self.parseMsg(token)
             else:
                 raise ParseException('Unknown token returned by the scanner.')
         
@@ -86,7 +86,7 @@ class Parser(BaseParser):
         if len(seconds_subtokens) < 2:
             raise ParseException('Error parsing seconds subtoken: %s' % (seconds_subtokens))
         dt.second = int(seconds_subtokens[0])
-        dt.miccrosecond = int(seconds_subtokens[1])
+        dt.microsecond = int(seconds_subtokens[1]) * 1000
         
         return dt
     
@@ -121,7 +121,7 @@ class Parser(BaseParser):
             raise ParseException('Error parsing level token: %s' % str(token))
     
     def parseSource(self, token):
-        return token.data[:-1]
+        return token.data
     
     def parseMsg(self, token):
         return token.data

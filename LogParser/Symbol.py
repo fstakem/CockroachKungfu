@@ -17,7 +17,7 @@ class Symbol(object):
     """This class represents a symbol for mapping characters to internal representation."""
        
     # Setup logging
-    logger = Utilities.getLogger('Symbol')
+    logger = Utilities.getLogger('LogParser::Symbol')
     
     # Class constants
     symbol_table = {
@@ -26,6 +26,7 @@ class Symbol(object):
                     'eol':                  [ '\n' ],
                     'eof':                  [ 'eof' ],
                     'dash':                 [ '-' ],
+                    'underscore':           [ '_' ],
                     'tilda':                [ '~' ],
                     'char':                 [],
                     'digit':                [],
@@ -51,6 +52,7 @@ class Symbol(object):
     EOL = Symbol.symbol_table['eol']
     EOF = Symbol.symbol_table['eof']
     DASH = Symbol.symbol_table['dash']
+    UNDERSCORE = Symbol.symbol_table['underscore']
     TILDA = Symbol.symbol_table['tilda']
     CHAR = Symbol.symbol_table['char']
     DIGIT = Symbol.symbol_table['digit']
@@ -90,6 +92,10 @@ class Symbol(object):
     @classmethod
     def isDash(cls, symbol):
         cls.isMatch(symbol, cls.DASH)
+        
+    @classmethod
+    def isUnderscore(cls, symbol):
+        cls.isMatch(symbol, cls.UNDERSCORE)
         
     @classmethod
     def isTilda(cls, symbol):

@@ -17,26 +17,31 @@ class Scanner(object):
     """This class represents a scanner that scans a log line outputting tokens."""
        
     # Setup logging
-    logger = Utilities.getLogger('Scanner')
+    logger = Utilities.getLogger('LogParser::Scanner')
     
     def __init__(self, source):
         self.source = source
-        self.current_symbol = None
-        self.start_position = None
-        self.current_position = None
-        self.symbol_buffer = None
+        self.reset()
         
     def reset(self):
         self.current_symbol = None
         self.start_position = None
         self.current_position = None
-        self.symbol_buffer = None
+        self.symbol_buffer = ''
         
     def scan(self):
         pass
     
+    def getFirstSymbol(self, advance=False):
+        if advance:
+            self.current_symbol, self.current_position = self.source.getNextSymbol()
+        self.start_position = self.current_position
+    
     def acceptSymbol(self):
         self.symbol_buffer += self.current_symbol
+        self.current_symbol, self.current_position = self.source.getNextSymbol()
+        
+    def rejectSymbol(self):
         self.current_symbol, self.current_position = self.source.getNextSymbol()
             
  

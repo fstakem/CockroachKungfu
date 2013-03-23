@@ -14,10 +14,9 @@ from LogParser import Token
 from LogParser import ScanException
 from TokenType import TokenType
 
-ScannerState = Utilities.enum('Start', 'ParsedDateTime', 'ParsedPid', \
-                              'ParsedTid', 'ParsedLevel', 'ParsedSource', \
-                              'ParsedMsg')
-
+ScannerState = Utilities.enum('Start', 'ScannedDateTime', 'ScannedPid', \
+                              'ScannedTid', 'ScannedLevel', 'ScannedSource', \
+                              'ScannedMsg')
 
 class Scanner(BaseScanner):
     
@@ -33,9 +32,6 @@ class Scanner(BaseScanner):
         super(Scanner, self).reset()
 
     def scan(self):
-        self.current_symbol, self.current_position = self.source.getNextSymbol()
-        self.start_position = self.current_position
-        
         while True:
             if Symbol.isSeparator(self.current_symbol):
                 self.scanSeperator(self.source)
@@ -46,25 +42,32 @@ class Scanner(BaseScanner):
             
     def scanSeperator(self):
         while Symbol.isSeparator(self.current_symbol):
-            self.current_symbol, self.current_position = self.source.getNextSymbol()
+            self.rejectSymbol()
             
     def scanToken(self):
+        self.symbol_buffer = ''
+        
         if self.state == ScannerState.Start:
             return self.scanDateTime()
-        elif self.state == ScannerState.ParsedDateTime:
+        elif self.state == ScannerState.ScannedDateTime:
             return self.scanPid()
-        elif self.state == ScannerState.ParsedPid:
+        elif self.state == ScannerState.ScannedPid:
             return self.scanTid()
-        elif self.state == ScannerState.ParsedTid:
+        elif self.state == ScannerState.ScannedTid:
             return self.scanLevel()
-        elif self.state == ScannerState.ParsedLevel:
+        elif self.state == ScannerState.ScannedLevel:
             return self.scanSource()
-        elif self.state == ScannerState.ParsedSource:
+        elif self.state == ScannerState.ScannedSource:
             return self.scanMsg()
         
         return None
             
     def scanDateTime(self):
+        self.getFirstSymbol(True)
+        
+        if Symbol.isSeparator(self.current_symbol):
+                self.scanSeperator(self.source)
+        
         while Symbol.isDigit(self.current_symbol) or \
               Symbol.isDash(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
@@ -85,63 +88,80 @@ class Scanner(BaseScanner):
         elif len(tokens[1]) < 12:
             raise ScanException('Second date time subtoken is incorrect length.')
         
-        self.state = ScannerState.ParsedDateTime
+        self.state = ScannerState.ScannedDateTime
         
-        return Token(TokenType.DATE, self.symbol_buffer, self.start_position, self.current_position-1)
+        return Token(TokenType.TIMESTAMP, self.symbol_buffer, self.start_position, self.current_position-1)
     
     def scanPid(self):
+        self.getFirstSymbol()
+        
         while Symbol.isDigit(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No PID symbols found.')
         
-        self.state = ScannerState.ParsedPid
+        self.state = ScannerState.ScannedPid
         
         return Token(TokenType.PID, self.symbol_buffer, self.start_position, self.current_position-1)
 
     def scanTid(self):
+        self.getFirstSymbol()
+        
         while Symbol.isDigit(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No TID symbols found.')
         
-        self.state = ScannerState.ParsedTid
+        self.state = ScannerState.ScannedTid
         
         return Token(TokenType.TID, self.symbol_buffer, self.start_position, self.current_position-1)
     
     def scanLevel(self):
+        self.getFirstSymbol()
+        
         while Symbol.isCharacter(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
         if len(self.symbol_buffer) != 1:
             raise ScanException('Incorrect number of symbols for the log level.')
         
-        self.state = ScannerState.ParsedLevel
+        self.state = ScannerState.ScannedLevel
         
         return Token(TokenType.LEVEL, self.symbol_buffer, self.start_position, self.current_position-1)
 
     def scanSource(self):
+        self.getFirstSymbol()
+        
+        # TODO
+        # This needs to made more robust because more
+        # symbols are definately possible even though
+        # they are not often used.
         while Symbol.isCharacter(self.current_symbol) or \
-              Symbol.isColon(self.current_symbol):
+              Symbol.isDigit(self.current_symbol) or \
+              Symbol.isUnderscore(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
+            
+        self.rejectSymbol()
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No source symbols found.') 
         
-        self.state = ScannerState.ParsedSource
+        self.state = ScannerState.ScannedSource
         
-        return Token(TokenType.SOURCE, self.symbol_buffer, self.start_position, self.current_position-1)
+        return Token(TokenType.SOURCE, self.symbol_buffer, self.start_position, self.current_position-2)
 
     def scanMsg(self):
+        self.getFirstSymbol()
+        
         while not Symbol.isEol(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No msg symbols found.') 
         
-        self.state = ScannerState.ParsedMsg
+        self.state = ScannerState.ScannedMsg
         
         return Token(TokenType.MSG, self.symbol_buffer, self.start_position, self.current_position-1)
 

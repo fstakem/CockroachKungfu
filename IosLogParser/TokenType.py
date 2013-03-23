@@ -11,27 +11,25 @@
 import Utilities
 
 class TokenType(object):
-    """This class represents a android token type that is found in a scanned file."""
+    """This class represents a iOS token type that is found in a scanned file."""
        
     # Setup logging
-    logger = Utilities.getLogger('AndroidLogParser::TokenType')
+    logger = Utilities.getLogger('IosLogParser::TokenType')
     
     # Class constants
     NONE = 0
     TIMESTAMP = 1
-    PID = 2
-    TID = 3
-    LEVEL = 4
-    SOURCE = 5
-    MSG = 6
+    SOURCE = 2
+    PID = 3
+    MACH_PORT = 4
+    MSG = 5
     
     readable_name = {
                      TokenType.NONE:         'None',
                      TokenType.TIMESTAMP:    'Timestamp',
-                     TokenType.PID:          'Pid',
-                     TokenType.TID:          'Tid',
-                     TokenType.LEVEL:        'Level',
                      TokenType.SOURCE:       'Source',
+                     TokenType.PID:          'Pid',
+                     TokenType.MACH_PORT:    'Mach Port',
                      TokenType.MSG:          'Msg',
                     }
     
