@@ -23,11 +23,12 @@ class Scanner(object):
         self.source = source
         self.reset()
         
-    def reset(self):
+    def reset(self, symbols=''):
         self.current_symbol = None
         self.start_position = None
         self.current_position = None
         self.symbol_buffer = ''
+        self.source.setSymbols(symbols)
         
     def scan(self):
         pass

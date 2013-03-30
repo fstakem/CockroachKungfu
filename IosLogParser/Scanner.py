@@ -26,9 +26,9 @@ class Scanner(BaseScanner):
         super(Scanner, self).__init__(source)
         self.state = ScannerState.Start
         
-    def reset(self):
+    def reset(self, symbols=''):
         self.state = ScannerState.Start
-        super(Scanner, self).reset()
+        super(Scanner, self).reset(symbols)
 
     def scan(self):
         while True:

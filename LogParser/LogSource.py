@@ -19,6 +19,9 @@ class LogSource(object):
     
     def __init__(self, name='Generic Source', symbols=''):
         self.name = name
+        self.setSymbols(symbols)
+        
+    def setSymbols(self, symbols=''):
         self.symbols = symbols
         self.last_symbol = None
         self.current_position = -1

@@ -22,26 +22,27 @@ class Parser(BaseParser):
     # Setup logging
     logger = Utilities.getLogger('IosLogParser::Parser')
     
-    def __init__(self, scanner, source):
-        super(Parser, self).__init__(scanner, source)
+    def __init__(self, scanner):
+        super(Parser, self).__init__(scanner)
     
     def parseLog(self, name, log_lines):
-        log_lines = []
+        parsed_lines = []
         errors = []
         for i, line in enumerate(log_lines):
             try:
-                log_lines.append( self.parseLogLine(line) )
+                parsed_lines.append( self.parseLogLine(line) )
             except ParseException, e:
                 errors.append( (i, e.msg()) )
             
         log = Log()
         log.name = name
-        log.lines = log_lines
+        log.lines = parsed_lines
         
         return (log, errors) 
     
     def parseLogLine(self, log_line):
         log_line = LogLine()
+        self.scanner.reset(log_line)
         
         while True:
             token, symbol, state = self.scanner.scan()
