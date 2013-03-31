@@ -7,7 +7,8 @@
 # ------------------------------------------------------
 
 # Libs
-import Utilities
+from Globals import *
+from Utilities import *
 from LogParser import Symbol
 from LogParser import Scanner as BaseScanner
 from LogParser import ScanException
@@ -23,19 +24,28 @@ class Scanner(BaseScanner):
     def __init__(self, name, source):
         super(Scanner, self).__init__(name, source)
         self.state = ScannerState.START
-        
+    
+    @debug_log(logger, globals.debug_scan)    
     def reset(self, symbols=''):
         self.state = ScannerState.START
         super(Scanner, self).reset(symbols)
 
     def scan(self):
         while True:
+            self.getNextSymbol()
+            self.start_position = self.current_position
+            
             if Symbol.isSeparator(self.current_symbol):
-                self.rejectSymbol()
+                continue
             elif Symbol.isEol(self.current_symbol):
-                return (None, self.current_symbol, self.state)
+                return (None, self.current_symbol, self.state, None)
             else:
-                return (self.scanToken(self.source), self.current_symbol, self.state)
+                try:
+                    token = self.scanToken()
+                    return (token, self.current_symbol, self.state, None)
+                except Exception as e:
+                    error = (self.start_position, self.current_position, e)
+                    return (None, self.current_symbol, self.state, error)
             
     def __str__(self):
         output = super(Scanner, self).__str__()
@@ -62,11 +72,6 @@ class Scanner(BaseScanner):
         return None
             
     def scanDateTime(self):
-        self.getFirstSymbol(True)
-        
-        if Symbol.isSeparator(self.current_symbol):
-                self.scanSeperator(self.source)
-        
         while Symbol.isDigit(self.current_symbol) or \
               Symbol.isDash(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
@@ -92,8 +97,6 @@ class Scanner(BaseScanner):
         return Token(TokenType.TIMESTAMP, self.symbol_buffer, self.start_position, self.current_position-1)
     
     def scanPid(self):
-        self.getFirstSymbol()
-        
         while Symbol.isDigit(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
@@ -105,8 +108,6 @@ class Scanner(BaseScanner):
         return Token(TokenType.PID, self.symbol_buffer, self.start_position, self.current_position-1)
 
     def scanTid(self):
-        self.getFirstSymbol()
-        
         while Symbol.isDigit(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
@@ -118,8 +119,6 @@ class Scanner(BaseScanner):
         return Token(TokenType.TID, self.symbol_buffer, self.start_position, self.current_position-1)
     
     def scanLevel(self):
-        self.getFirstSymbol()
-        
         while Symbol.isCharacter(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
@@ -131,8 +130,6 @@ class Scanner(BaseScanner):
         return Token(TokenType.LEVEL, self.symbol_buffer, self.start_position, self.current_position-1)
 
     def scanSource(self):
-        self.getFirstSymbol()
-        
         # TODO
         # This needs to made more robust because more
         # symbols are definately possible even though
@@ -152,8 +149,6 @@ class Scanner(BaseScanner):
         return Token(TokenType.SOURCE, self.symbol_buffer, self.start_position, self.current_position-2)
 
     def scanMsg(self):
-        self.getFirstSymbol()
-        
         while not Symbol.isEol(self.current_symbol):
             self.acceptSymbol(self.current_symbol)
             
