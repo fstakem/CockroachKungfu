@@ -23,10 +23,10 @@ class Parser(BaseParser):
     # Setup logging
     logger = Utilities.getLogger('AndroidLogParser::Parser')
     
-    def __init__(self, scanner):
-        super(Parser, self).__init__(scanner)
+    def __init__(self, name, scanner):
+        super(Parser, self).__init__(name, scanner)
     
-    def parseLog(self, name, log_lines):
+    def __call__(self, name, log_lines):
         parsed_lines = []
         errors = []
         for i, line in enumerate(log_lines):
@@ -46,7 +46,7 @@ class Parser(BaseParser):
         self.scanner.reset(log_line)
         
         while True:
-            token, symbol, state = self.scanner.scan()
+            token, symbol, state = self.scanner()
         
             if token == None and Symbol.isEol(symbol) and state == ScannerState.ParsedMsg:
                 return log_line

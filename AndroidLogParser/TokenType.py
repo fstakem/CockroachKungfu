@@ -8,14 +8,11 @@
 
 
 # Libs
-import Utilities
+from LogParser import TokenType as BaseTokenType
 
-class TokenType(object):
+class TokenType(BaseTokenType):
     """This class represents a android token type that is found in a scanned file."""
        
-    # Setup logging
-    logger = Utilities.getLogger('AndroidLogParser::TokenType')
-    
     # Class constants
     NONE = 0
     TIMESTAMP = 1
@@ -35,12 +32,9 @@ class TokenType(object):
                      TokenType.MSG:          'Msg',
                     }
     
-    def __init__(self):
-        pass
-    
     @classmethod
-    def prettyPrint(cls, type):
-        return cls.readable_name[type]
+    def prettyPrint(cls, token_type):
+        return cls.readable_name[token_type]
     
     
     

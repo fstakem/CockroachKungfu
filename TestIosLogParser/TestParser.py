@@ -1,6 +1,6 @@
 # ------------------------------------------------------
 #
-#   TestIosParser.py
+#   TestParser.py
 #   By: Fred Stakem
 #   Created: 3.23.13
 #
@@ -14,10 +14,18 @@ from LogParser import LogSource
 from IosLogParser import Scanner
 from IosLogParser import Parser
 
-class IosParserTest(unittest.TestCase):
+class ParserTest(unittest.TestCase):
     
     # Setup logging
-    logger = Utilities.getLogger('IosParserTest')
+    logger = Utilities.getLogger('ParserTest')
+    
+    @classmethod
+    def setUpClass(cls):
+        pass
+    
+    @classmethod
+    def tearDownClass(cls):
+        pass
     
     def setUp(self):
         source = LogSource('iOS Test Source', None)
@@ -28,11 +36,14 @@ class IosParserTest(unittest.TestCase):
         pass
     
     @log_test(logger, globals.log_separator)
-    def testX(self):
+    def testParserMockData(self):
         name = ''
         log_lines = ''
-        log, errors = self.parser.parseLog(name, log_lines)
+        log, errors = self.parser(name, log_lines)
+        
+    @log_test(logger, globals.log_separator)
+    def testParserRealData(self):
+        pass
     
         
-    # TODO
-    # various tests
+   

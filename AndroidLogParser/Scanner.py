@@ -10,54 +10,53 @@
 import Utilities
 from LogParser import Symbol
 from LogParser import Scanner as BaseScanner
-from LogParser import Token
 from LogParser import ScanException
 from TokenType import TokenType
-
-ScannerState = Utilities.enum('Start', 'ScannedDateTime', 'ScannedPid', \
-                              'ScannedTid', 'ScannedLevel', 'ScannedSource', \
-                              'ScannedMsg')
+from Token import Token
+from ScannerState import ScannerState
 
 class Scanner(BaseScanner):
     
     # Setup logging
     logger = Utilities.getLogger('AndroidLogParser::Scanner')
     
-    def __init__(self, source):
-        super(Scanner, self).__init__(source)
-        self.state = ScannerState.Start
+    def __init__(self, name, source):
+        super(Scanner, self).__init__(name, source)
+        self.state = ScannerState.START
         
     def reset(self, symbols=''):
-        self.state = ScannerState.Start
+        self.state = ScannerState.START
         super(Scanner, self).reset(symbols)
 
     def scan(self):
         while True:
             if Symbol.isSeparator(self.current_symbol):
-                self.scanSeperator(self.source)
+                self.rejectSymbol()
             elif Symbol.isEol(self.current_symbol):
                 return (None, self.current_symbol, self.state)
             else:
                 return (self.scanToken(self.source), self.current_symbol, self.state)
             
-    def scanSeperator(self):
-        while Symbol.isSeparator(self.current_symbol):
-            self.rejectSymbol()
-            
+    def __str__(self):
+        output = super(Scanner, self).__str__()
+        output += 'Scanner state: %s' % (ScannerState.prettyPrint(self.state))
+        
+        return output
+                     
     def scanToken(self):
         self.symbol_buffer = ''
         
-        if self.state == ScannerState.Start:
+        if self.state == ScannerState.START:
             return self.scanDateTime()
-        elif self.state == ScannerState.ScannedDateTime:
+        elif self.state == ScannerState.SCANNED_DATETIME:
             return self.scanPid()
-        elif self.state == ScannerState.ScannedPid:
+        elif self.state == ScannerState.SCANNED_PID:
             return self.scanTid()
-        elif self.state == ScannerState.ScannedTid:
+        elif self.state == ScannerState.SCANNED_TID:
             return self.scanLevel()
-        elif self.state == ScannerState.ScannedLevel:
+        elif self.state == ScannerState.SCANNED_LEVEL:
             return self.scanSource()
-        elif self.state == ScannerState.ScannedSource:
+        elif self.state == ScannerState.SCANNED_SOURCE:
             return self.scanMsg()
         
         return None
@@ -88,7 +87,7 @@ class Scanner(BaseScanner):
         elif len(tokens[1]) < 12:
             raise ScanException('Second date time subtoken is incorrect length.')
         
-        self.state = ScannerState.ScannedDateTime
+        self.state = ScannerState.SCANNED_DATETIME
         
         return Token(TokenType.TIMESTAMP, self.symbol_buffer, self.start_position, self.current_position-1)
     
@@ -101,7 +100,7 @@ class Scanner(BaseScanner):
         if len(self.symbol_buffer) < 1:
             raise ScanException('No PID symbols found.')
         
-        self.state = ScannerState.ScannedPid
+        self.state = ScannerState.SCANNED_PID
         
         return Token(TokenType.PID, self.symbol_buffer, self.start_position, self.current_position-1)
 
@@ -114,7 +113,7 @@ class Scanner(BaseScanner):
         if len(self.symbol_buffer) < 1:
             raise ScanException('No TID symbols found.')
         
-        self.state = ScannerState.ScannedTid
+        self.state = ScannerState.SCANNED_TID
         
         return Token(TokenType.TID, self.symbol_buffer, self.start_position, self.current_position-1)
     
@@ -127,7 +126,7 @@ class Scanner(BaseScanner):
         if len(self.symbol_buffer) != 1:
             raise ScanException('Incorrect number of symbols for the log level.')
         
-        self.state = ScannerState.ScannedLevel
+        self.state = ScannerState.SCANNED_LEVEL
         
         return Token(TokenType.LEVEL, self.symbol_buffer, self.start_position, self.current_position-1)
 
@@ -148,7 +147,7 @@ class Scanner(BaseScanner):
         if len(self.symbol_buffer) < 1:
             raise ScanException('No source symbols found.') 
         
-        self.state = ScannerState.ScannedSource
+        self.state = ScannerState.SCANNED_SOURCE
         
         return Token(TokenType.SOURCE, self.symbol_buffer, self.start_position, self.current_position-2)
 
@@ -161,7 +160,7 @@ class Scanner(BaseScanner):
         if len(self.symbol_buffer) < 1:
             raise ScanException('No msg symbols found.') 
         
-        self.state = ScannerState.ScannedMsg
+        self.state = ScannerState.SCANNED_MSG
         
         return Token(TokenType.MSG, self.symbol_buffer, self.start_position, self.current_position-1)
 

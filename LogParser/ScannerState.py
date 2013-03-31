@@ -1,23 +1,23 @@
 # ------------------------------------------------------
 #
-#   TokenType.py
+#   ScannerState.py
 #   By: Fred Stakem
-#   Created: 3.9.13
+#   Created: 3.30.13
 #
 # ------------------------------------------------------
 
 # Libs
 
-class TokenType(object):
-    """This class represents a token type that is found in a scanned file."""
+class ScannerState(object):
+    """This class represents the state of the scanner."""
        
     # Class constants
-    NONE = 0
-    OBJECT = 1
+    START = 0
+    END = 1
     
     readable_name = {
-                     NONE:                'None',
-                     OBJECT:              'Object',
+                     START:            'Start',
+                     END:              'End',
                     }
      
     @classmethod

@@ -8,14 +8,11 @@
 
 
 # Libs
-import Utilities
+from LogParser import TokenType as BaseTokenType
 
-class TokenType(object):
+class TokenType(BaseTokenType):
     """This class represents a iOS token type that is found in a scanned file."""
        
-    # Setup logging
-    logger = Utilities.getLogger('IosLogParser::TokenType')
-    
     # Class constants
     NONE = 0
     TIMESTAMP = 1
@@ -25,20 +22,19 @@ class TokenType(object):
     MSG = 5
     
     readable_name = {
-                     TokenType.NONE:         'None',
-                     TokenType.TIMESTAMP:    'Timestamp',
-                     TokenType.SOURCE:       'Source',
-                     TokenType.PID:          'Pid',
-                     TokenType.MACH_PORT:    'Mach Port',
-                     TokenType.MSG:          'Msg',
+                     NONE:         'None',
+                     TIMESTAMP:    'Timestamp',
+                     SOURCE:       'Source',
+                     PID:          'Pid',
+                     MACH_PORT:    'Mach Port',
+                     MSG:          'Msg',
                     }
     
-    def __init__(self):
-        pass
-    
     @classmethod
-    def prettyPrint(cls, type):
-        return cls.readable_name[type]
+    def prettyPrint(cls, token_type):
+        return cls.readable_name[token_type]
+    
+   
     
     
     

@@ -23,7 +23,7 @@ class LogSource(object):
         
     def setSymbols(self, symbols=''):
         self.symbols = symbols
-        self.last_symbol = None
+        self.previous_symbol = ''
         self.current_position = -1
     
     def getNextSymbol(self):
@@ -31,7 +31,7 @@ class LogSource(object):
         
         try:
             next_symbol = self.symbols[self.current_position]
-            self.last_symbol = next_symbol
+            self.previous_symbol = next_symbol
             
             return (next_symbol, self.current_position)
         except IndexError:
