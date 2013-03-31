@@ -10,7 +10,8 @@
 import logging
 
 # Classes
-import Utilities
+from Globals import *
+from Utilities import *
 from Symbol import Symbol
 
 class Scanner(object):
@@ -35,15 +36,13 @@ class Scanner(object):
     def scan(self):
         pass
     
+    @debug_log(logger, globals.debug_next_symbol)
     def getNextSymbol(self):
         self.previous_symbol = self.source.previous_symbol
         self.current_symbol, self.current_position = self.source.getNextSymbol()
     
     def acceptSymbol(self):
         self.symbol_buffer += self.current_symbol
-        self.getNextSymbol()
-        
-    def rejectSymbol(self):
         self.getNextSymbol()
         
     def __str__(self):

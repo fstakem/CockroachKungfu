@@ -7,6 +7,7 @@
 # ------------------------------------------------------
 
 # Libs
+from Globals import *
 from Utilities import *
 from LogParser import Symbol
 from LogParser import Scanner as BaseScanner
@@ -28,14 +29,14 @@ class Scanner(BaseScanner):
         self.state = ScannerState.START
         super(Scanner, self).reset(symbols)
 
-    @debug_func(logger, True)
+    @debug_log(logger, globals.debug_scan)
     def scan(self):
         while True:
             self.getNextSymbol()
             self.start_position = self.current_position
             
             if Symbol.isSeparator(self.current_symbol):
-                self.rejectSymbol()
+                continue
             elif Symbol.isEol(self.current_symbol):
                 return (None, self.current_symbol, self.state, None)
             else:
@@ -43,7 +44,7 @@ class Scanner(BaseScanner):
                     token = self.scanToken()
                     return (token, self.current_symbol, self.state, None)
                 except Exception as e:
-                    error = (self.start_position, self.current_position, str(e))
+                    error = (self.start_position, self.current_position, e)
                     return (None, self.current_symbol, self.state, error)
                         
     def __str__(self):

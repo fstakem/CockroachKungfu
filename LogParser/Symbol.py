@@ -20,6 +20,7 @@ class Symbol(object):
     
     # Class constants
     symbol_table = {
+                    'unknown':              [],
                     'separator':            [ ' ', '\t', '\n' ],
                     'hash':                 [ '#' ],          
                     'eol':                  [ '\n' ],
@@ -46,6 +47,7 @@ class Symbol(object):
                 'boolean false':            [ 'false' ]
                }
     
+    UNKNOWN = symbol_table['unknown']
     SEPARATOR = symbol_table['separator']
     HASH = symbol_table['hash']
     EOL = symbol_table['eol']

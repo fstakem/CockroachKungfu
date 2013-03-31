@@ -42,7 +42,7 @@ def log_test(logger, log_seperators):
         return onCall
     return log
 
-def debug_func(logger, debug_on=False):
+def debug_log(logger, debug_on=False):
     def debug(func):
         def onCall(self):
             if debug_on:

@@ -35,7 +35,11 @@ class LogSource(object):
             
             return (next_symbol, self.current_position)
         except IndexError:
-            return Symbol.EOL
+            self.current_position -= 1
+            return (Symbol.EOL, self.current_position)
+        except Exception:
+            self.current_position -= 1
+            return (Symbol.UNKNOWN, self.current_position)
         
         
     
