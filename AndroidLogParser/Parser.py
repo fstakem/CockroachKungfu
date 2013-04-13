@@ -26,7 +26,7 @@ class Parser(BaseParser):
     def __init__(self, name, scanner):
         super(Parser, self).__init__(name, scanner)
     
-    def __call__(self, name, log_lines):
+    def parse(self, name, log_lines):
         parsed_lines = []
         errors = []
         for i, line in enumerate(log_lines):

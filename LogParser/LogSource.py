@@ -9,6 +9,7 @@
 
 # Libs
 import Utilities
+import time
 from Symbol import Symbol
 
 class LogSource(object):
@@ -36,7 +37,7 @@ class LogSource(object):
             return (next_symbol, self.current_position)
         except IndexError:
             self.current_position -= 1
-            return (Symbol.EOL, self.current_position)
+            return (Symbol.EOL[0], self.current_position)
         except Exception:
             self.current_position -= 1
             return (Symbol.UNKNOWN, self.current_position)

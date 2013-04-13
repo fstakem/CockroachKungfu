@@ -34,11 +34,12 @@ class Scanner(BaseScanner):
         while True:
             self.getNextSymbol()
             self.start_position = self.current_position
+            Scanner.logger.debug('Initial symbol: %s' % (self.current_symbol))
             
-            if Symbol.isSeparator(self.current_symbol):
-                continue
-            elif Symbol.isEol(self.current_symbol):
+            if Symbol.isEol(self.current_symbol):
                 return (None, self.current_symbol, self.state, None)
+            elif Symbol.isSeparator(self.current_symbol):
+                continue
             else:
                 try:
                     token = self.scanToken()

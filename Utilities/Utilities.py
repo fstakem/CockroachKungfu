@@ -13,6 +13,7 @@ def enum(*sequential, **named):
 
 # Libraries
 import logging
+import sys
 
 def getLogger(name='GenericLogger'):
     logger = logging.getLogger(name)
@@ -44,14 +45,14 @@ def log_test(logger, log_seperators):
 
 def debug_log(logger, debug_on=False):
     def debug(func):
-        def onCall(self):
+        def onCall(self, *args, **kwargs):
             if debug_on:
                 logger.debug('Before %s()' % (func.func_name))
                 lines = ( str(self) ).split('\n')
                 for line in lines:
                     logger.debug('\t%s' % (line))
                 
-            data = func(self)
+            data = func(self, *args, **kwargs)
             
             if debug_on:
                 logger.debug('After %s()' % (func.func_name))

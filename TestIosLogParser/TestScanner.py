@@ -164,6 +164,8 @@ class ScannerTest(unittest.TestCase):
         for line in lines:
             line += '\n'
             
+        errors = []
+            
         for i, line in enumerate(lines):
             token = 1
             self.scanner.reset(line)
@@ -171,6 +173,20 @@ class ScannerTest(unittest.TestCase):
             ScannerTest.logger.debug('Input data: %s' % (line[:-1]))
             while token != None:
                 token, error = self.getNextToken()
+                
+                if error != None:
+                    errors.append(error)
+                                    
+        if len(errors) != 0:
+            ScannerTest.logger.debug('Found the following errors scanning the file:')
+            for i, error in enumerate(errors):
+                start_position = error[0] 
+                current_position = error[1] 
+                error_except = error[2]
+                output = 'Error: %s Start position: %d End position: %d' % (str(error_except), start_position, current_position)
+                ScannerTest.logger.debug(output)
+                
+            assert False, 'Found %d errors scanning the file.' % (str(len(errors) + 1))
                 
         ScannerTest.logger.debug('Test succeeded!')
         

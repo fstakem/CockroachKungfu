@@ -21,7 +21,7 @@ class Symbol(object):
     # Class constants
     symbol_table = {
                     'unknown':              [],
-                    'separator':            [ ' ', '\t', '\n' ],
+                    'separator':            [ ' ', '\t' ],
                     'hash':                 [ '#' ],          
                     'eol':                  [ '\n' ],
                     'eof':                  [ 'eof' ],

@@ -14,3 +14,4 @@ log_separator = (header_line, footer_line)
 
 debug_scan = True
 debug_next_symbol = False
+debug_parse = True

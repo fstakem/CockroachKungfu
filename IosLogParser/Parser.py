@@ -8,13 +8,15 @@
 
 # Libs
 from datetime import datetime
-import Utilities
+from Globals import *
+from Utilities import *
 from LogParser import Symbol
 from LogParser import Parser as BaseParser
+from LogParser import ScanException
 from LogParser import ParseException
 from LogLine import LogLine
 from Log import Log
-from Scanner import ScannerState
+from ScannerState import ScannerState
 from TokenType import TokenType
 
 class Parser(BaseParser):
@@ -24,30 +26,40 @@ class Parser(BaseParser):
     
     def __init__(self, name, scanner):
         super(Parser, self).__init__(name, scanner)
-    
-    def __call__(self, name, log_lines):
-        parsed_lines = []
-        errors = []
+        
+    def parse(self, name, log_lines):
+        self.parsed_lines = []
+        self.errors = []
         for i, line in enumerate(log_lines):
             try:
-                parsed_lines.append( self.parseLogLine(line) )
+                self.parsed_lines.append( self.parseLogLine(line) )
+            except ScanException, e:
+                self.errors.append( (i, str(e)) )
             except ParseException, e:
-                errors.append( (i, e.msg()) )
+                self.errors.append( (i, str(e)) )
             
         log = Log()
         log.name = name
-        log.lines = parsed_lines
+        log.lines = self.parsed_lines
         
-        return (log, errors) 
+        return (log, self.errors) 
     
-    def parseLogLine(self, log_line):
+    def __str__(self):
+        output = super(Parser, self).__str__()
+        
+        return output
+    
+    @debug_log(logger, globals.debug_parse)
+    def parseLogLine(self, line):
         log_line = LogLine()
-        self.scanner.reset(log_line)
+        self.scanner.reset(line)
         
         while True:
-            token, symbol, state = self.scanner()
-        
-            if token == None and Symbol.isEol(symbol) and state == ScannerState.ParsedMsg:
+            token, current_symbol, state, error = self.scanner.scan()
+            
+            if token == None and error != None:
+                raise ScanException(str(error[3]))
+            if token == None and Symbol.isEol(current_symbol) and state == ScannerState.SCANNED_MSG:
                 return log_line
             elif token.type == TokenType.TIMESTAMP:
                 log_line.timestamp = self.parseDateTime(token)
@@ -56,36 +68,38 @@ class Parser(BaseParser):
             elif token.type == TokenType.PID:
                 log_line.pid = self.parsePid(token)
             elif token.type == TokenType.MACH_PORT:
-                log_line.tid = self.parseMachPort(token)
+                log_line.mach_port= self.parseMachPort(token)
             elif token.type == TokenType.MSG:
                 log_line.msg = self.parseMsg(token)
             else:
                 raise ParseException('Unknown token returned by the scanner.')
+                    
         
         raise ParseException('End of line not found.')
     
     def parseDateTime(self, token):
-        dt = datetime.now()
-        subtokens = token.split()
+        subtokens = token.data.split()
         
         date_subtokens = subtokens[0].split('-')
         if len(date_subtokens) < 2:
             raise ParseException('Error parsing date subtoken: %s' % (date_subtokens))
-        dt.year = int(date_subtokens[0])
-        dt.month = int(date_subtokens[1])
-        dt.day = int(date_subtokens[2])
+        year = int(date_subtokens[0])
+        month = int(date_subtokens[1])
+        day = int(date_subtokens[2])
         
         time_subtokens = subtokens[1].split(':')
         if len(time_subtokens) < 3:
             raise ParseException('Error parsing time subtoken: %s' % (time_subtokens))
-        dt.hour = int(time_subtokens[0])
-        dt.minute = int(time_subtokens[1])
+        hour = int(time_subtokens[0])
+        minute = int(time_subtokens[1])
         
         seconds_subtokens = time_subtokens[2].split('.')
         if len(seconds_subtokens) < 2:
             raise ParseException('Error parsing seconds subtoken: %s' % (seconds_subtokens))
-        dt.second = int(seconds_subtokens[0])
-        dt.microsecond = int(seconds_subtokens[1]) * 1000
+        second = int(seconds_subtokens[0])
+        microsecond = int(seconds_subtokens[1]) * 1000
+        
+        dt = datetime(year, month, day, hour, minute, second, microsecond)
         
         return dt
     
