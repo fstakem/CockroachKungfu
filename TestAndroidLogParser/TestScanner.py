@@ -62,9 +62,6 @@ class ScannerTest(unittest.TestCase):
         self.scanner.state = ScannerState.SCANNED_DATETIME
         ScannerTest.logger.debug('Input data: %s' % (input_symbols))
         
-        # Source
-        self.getNextToken()
-        
         # PID
         self.getNextTokenAndTestEquality(expected_token, 'PID')
         ScannerTest.logger.debug('Test succeeded!')
@@ -79,10 +76,7 @@ class ScannerTest(unittest.TestCase):
         self.scanner.reset(input_symbols)
         self.scanner.state = ScannerState.SCANNED_PID
         ScannerTest.logger.debug('Input data: %s' % (input_symbols))
-        
-        # Source
-        self.getNextToken()
-        
+         
         # TID
         self.getNextTokenAndTestEquality(expected_token, 'TID')
         ScannerTest.logger.debug('Test succeeded!')
@@ -98,17 +92,14 @@ class ScannerTest(unittest.TestCase):
         self.scanner.state = ScannerState.SCANNED_TID
         ScannerTest.logger.debug('Input data: %s' % (input_symbols))
         
-        # Source
-        self.getNextToken()
-        
         # TID
         self.getNextTokenAndTestEquality(expected_token, 'Level')
         ScannerTest.logger.debug('Test succeeded!')
         
     @log_test(logger, globals.log_separator)
     def testScannerSource(self):
-        source_str = 'dalvikvm:'
-        input_symbols = source_str + ' WAIT_FOR_CONCURRENT_GC blocked 0ms'
+        source_str = 'dalvikvm'
+        input_symbols = source_str + ': WAIT_FOR_CONCURRENT_GC blocked 0ms'
         expected_token = Token(TokenType.SOURCE, source_str)
         
         # Setup
@@ -141,9 +132,9 @@ class ScannerTest(unittest.TestCase):
         pid_str = '37'
         tid_str = '37'
         level_str = 'D'
-        source_str = 'dalvikvm:'
+        source_str = 'dalvikvm'
         msg_str = 'WAIT_FOR_CONCURRENT_GC blocked 0ms'
-        input_symbols = '%s %s %s %s %s %s\n' % (timestamp_str, pid_str, tid_str, level_str, source_str, msg_str)
+        input_symbols = '%s %s %s %s %s: %s\n' % (timestamp_str, pid_str, tid_str, level_str, source_str, msg_str)
         
         # Expected tokens
         timestamp_token = Token(TokenType.TIMESTAMP, timestamp_str)

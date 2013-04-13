@@ -39,7 +39,9 @@ class Symbol(object):
                     'dot':                  [ '.' ],
                     'colon':                [ ':' ],
                     'exponent':             [ 'e', 'E' ],
-                    'bar':                  [ '|' ]
+                    'bar':                  [ '|' ],
+                    'forward_slash':        [ '/' ],
+                    'backward_slash':       [ '\\' ]
                    }
     
     keywords = {
@@ -67,6 +69,8 @@ class Symbol(object):
     COLON = symbol_table['colon']
     EXPONENT = symbol_table['exponent']
     BAR = symbol_table['bar'] 
+    FORWARD_SLASH = symbol_table['forward_slash']
+    BACKWARD_SLASH = symbol_table['backward_slash']
     
     BOOLEAN_TRUE = keywords['boolean true']
     BOOLEAN_FALSE = keywords['boolean false']
@@ -153,6 +157,14 @@ class Symbol(object):
     @classmethod
     def isBar(cls, symbol):
         return cls.isMatch(symbol, cls.BAR)
+    
+    @classmethod
+    def isForwardSlash(cls, symbol):
+        return cls.isMatch(symbol, cls.FORWARD_SLASH)
+    
+    @classmethod
+    def isBackwardSlash(cls, symbol):
+        return cls.isMatch(symbol, cls.BACKWARD_SLASH)
         
     @classmethod
     def isBooleanTrue(cls, token):

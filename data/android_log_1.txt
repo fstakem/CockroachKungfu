@@ -307,20 +307,6 @@
 02-23 10:13:53.244   160   160 W ActivityManager: Unable to start service Intent { act=com.android.internal.telephony.IWapPushManager }: not found
 02-23 10:13:53.723   249   251 D dalvikvm: GC_CONCURRENT freed 182K, 4% free 8233K/8519K, paused 17ms+5ms, total 947ms
 02-23 10:13:53.943   340   340 E Trace   : error opening trace file: No such file or directory (2)
-02-23 10:13:53.993   249   249 D         : [ApnContext:default] set reason as dataEnabled,current state IDLE
-02-23 10:13:53.993   249   249 D         : [ApnContext:default] setRetryCount: 0
-02-23 10:13:54.063   249   249 D         : [ApnContext:mms] set reason as dataEnabled,current state IDLE
-02-23 10:13:54.063   249   249 D         : [ApnContext:mms] setRetryCount: 0
-02-23 10:13:54.073   249   249 D         : [ApnContext:supl] set reason as dataEnabled,current state IDLE
-02-23 10:13:54.073   249   249 D         : [ApnContext:supl] setRetryCount: 0
-02-23 10:13:54.083   249   249 D         : [ApnContext:hipri] set reason as dataEnabled,current state IDLE
-02-23 10:13:54.083   249   249 D         : [ApnContext:hipri] setRetryCount: 0
-02-23 10:13:54.083   249   249 D         : [ApnContext:fota] set reason as dataEnabled,current state IDLE
-02-23 10:13:54.083   249   249 D         : [ApnContext:fota] setRetryCount: 0
-02-23 10:13:54.083   249   249 D         : [ApnContext:ims] set reason as dataEnabled,current state IDLE
-02-23 10:13:54.083   249   249 D         : [ApnContext:ims] setRetryCount: 0
-02-23 10:13:54.103   249   249 D         : [ApnContext:cbs] set reason as dataEnabled,current state IDLE
-02-23 10:13:54.103   249   249 D         : [ApnContext:cbs] setRetryCount: 0
 02-23 10:13:54.523   249   249 D CallManager: registerPhone(GSM Handler (com.android.internal.telephony.PhoneProxy) {4122eed8})
 02-23 10:13:54.593   258   258 W ResourceType: Attempt to retrieve bag 0x7f0d0017 which is invalid or in a cycle.
 02-23 10:13:54.613   258   258 W ResourceType: Attempt to retrieve bag 0x7f0d0017 which is invalid or in a cycle.

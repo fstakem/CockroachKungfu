@@ -23,13 +23,13 @@ class TokenType(BaseTokenType):
     MSG = 6
     
     readable_name = {
-                     TokenType.NONE:         'None',
-                     TokenType.TIMESTAMP:    'Timestamp',
-                     TokenType.PID:          'Pid',
-                     TokenType.TID:          'Tid',
-                     TokenType.LEVEL:        'Level',
-                     TokenType.SOURCE:       'Source',
-                     TokenType.MSG:          'Msg',
+                     NONE:         'None',
+                     TIMESTAMP:    'Timestamp',
+                     PID:          'Pid',
+                     TID:          'Tid',
+                     LEVEL:        'Level',
+                     SOURCE:       'Source',
+                     MSG:          'Msg',
                     }
     
     @classmethod

@@ -126,7 +126,7 @@ class ParserTest(unittest.TestCase):
         ParserTest.logger.debug('Test succeeded!')
     
     @log_test(logger, globals.log_separator)
-    def xxtestParseRealData(self):
+    def testParseRealData(self):
         ParserTest.logger.debug('Testing data in the file: ' + ParserTest.data_file)
         lines = readLinesFromFile(ParserTest.data_file)
         

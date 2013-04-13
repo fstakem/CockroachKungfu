@@ -24,21 +24,22 @@ class Scanner(BaseScanner):
     def __init__(self, name, source):
         super(Scanner, self).__init__(name, source)
         self.state = ScannerState.START
-    
-    @debug_log(logger, globals.debug_scan)    
+     
     def reset(self, symbols=''):
         self.state = ScannerState.START
         super(Scanner, self).reset(symbols)
 
+    @debug_log(logger, globals.debug_scan)
     def scan(self):
         while True:
             self.getNextSymbol()
             self.start_position = self.current_position
+            Scanner.logger.debug('Initial symbol: %s' % (self.current_symbol))
             
-            if Symbol.isSeparator(self.current_symbol):
-                continue
-            elif Symbol.isEol(self.current_symbol):
+            if Symbol.isEol(self.current_symbol):
                 return (None, self.current_symbol, self.state, None)
+            elif Symbol.isSeparator(self.current_symbol):
+                continue
             else:
                 try:
                     token = self.scanToken()
@@ -74,15 +75,15 @@ class Scanner(BaseScanner):
     def scanDateTime(self):
         while Symbol.isDigit(self.current_symbol) or \
               Symbol.isDash(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         while Symbol.isSeparator(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         while Symbol.isDigit(self.current_symbol) or \
               Symbol.isColon(self.current_symbol) or \
               Symbol.isDot(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         tokens = self.symbol_buffer.split()
         if len(tokens) < 2:
@@ -98,7 +99,7 @@ class Scanner(BaseScanner):
     
     def scanPid(self):
         while Symbol.isDigit(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No PID symbols found.')
@@ -109,7 +110,7 @@ class Scanner(BaseScanner):
 
     def scanTid(self):
         while Symbol.isDigit(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No TID symbols found.')
@@ -120,7 +121,7 @@ class Scanner(BaseScanner):
     
     def scanLevel(self):
         while Symbol.isCharacter(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         if len(self.symbol_buffer) != 1:
             raise ScanException('Incorrect number of symbols for the log level.')
@@ -134,23 +135,24 @@ class Scanner(BaseScanner):
         # This needs to made more robust because more
         # symbols are definately possible even though
         # they are not often used.
+        # One known error is there is no source.
         while Symbol.isCharacter(self.current_symbol) or \
               Symbol.isDigit(self.current_symbol) or \
-              Symbol.isUnderscore(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
-            
-        self.rejectSymbol()
+              Symbol.isUnderscore(self.current_symbol) or \
+              Symbol.isSeparator(self.current_symbol) or \
+              Symbol.isForwardSlash(self.current_symbol):
+            self.acceptSymbol()
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No source symbols found.') 
         
         self.state = ScannerState.SCANNED_SOURCE
         
-        return Token(TokenType.SOURCE, self.symbol_buffer, self.start_position, self.current_position-2)
+        return Token(TokenType.SOURCE, self.symbol_buffer.strip(), self.start_position, self.current_position-2)
 
     def scanMsg(self):
         while not Symbol.isEol(self.current_symbol):
-            self.acceptSymbol(self.current_symbol)
+            self.acceptSymbol()
             
         if len(self.symbol_buffer) < 1:
             raise ScanException('No msg symbols found.') 
