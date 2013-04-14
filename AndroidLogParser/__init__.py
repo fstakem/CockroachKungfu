@@ -1,4 +1,5 @@
 from Log import Log
+from LogLine import LogLevel
 from LogLine import LogLine
 from Parser import Parser
 from ScannerState import ScannerState

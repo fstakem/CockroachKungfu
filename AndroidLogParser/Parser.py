@@ -11,6 +11,7 @@ from datetime import datetime
 import Utilities
 from LogParser import Symbol
 from LogParser import Parser as BaseParser
+from LogParser import ScanException
 from LogParser import ParseException
 from LogLine import LogLine
 from Log import Log
@@ -41,14 +42,16 @@ class Parser(BaseParser):
         
         return (log, errors) 
     
-    def parseLogLine(self, log_line):
+    def parseLogLine(self, line):
         log_line = LogLine()
-        self.scanner.reset(log_line)
+        self.scanner.reset(line)
         
         while True:
-            token, symbol, state = self.scanner()
+            token, current_symbol, state, error = self.scanner.scan()
         
-            if token == None and Symbol.isEol(symbol) and state == ScannerState.ParsedMsg:
+            if token == None and error != None:
+                raise ScanException(str(error[3]))
+            elif token == None and Symbol.isEol(current_symbol) and state == ScannerState.SCANNED_MSG:
                 return log_line
             elif token.type == TokenType.TIMESTAMP:
                 log_line.timestamp = self.parseDateTime(token)
@@ -69,27 +72,29 @@ class Parser(BaseParser):
     
     def parseDateTime(self, token):
         dt = datetime.now()
-        subtokens = token.split()
+        subtokens = token.data.split()
         
         date_subtokens = subtokens[0].split('-')
         if len(date_subtokens) < 2:
             raise ParseException('Error parsing date subtoken: %s' % (date_subtokens))
-        dt.month = int(date_subtokens[0])
-        dt.day = int(date_subtokens[1])
+        month = int(date_subtokens[0])
+        day = int(date_subtokens[1])
         
         time_subtokens = subtokens[1].split(':')
         if len(time_subtokens) < 3:
             raise ParseException('Error parsing time subtoken: %s' % (time_subtokens))
-        dt.hour = int(time_subtokens[0])
-        dt.minute = int(time_subtokens[1])
+        hour = int(time_subtokens[0])
+        minute = int(time_subtokens[1])
         
         seconds_subtokens = time_subtokens[2].split('.')
         if len(seconds_subtokens) < 2:
             raise ParseException('Error parsing seconds subtoken: %s' % (seconds_subtokens))
-        dt.second = int(seconds_subtokens[0])
-        dt.microsecond = int(seconds_subtokens[1]) * 1000
+        second = int(seconds_subtokens[0])
+        microsecond = int(seconds_subtokens[1]) * 1000
         
-        return dt
+        new_dt = datetime(dt.year, month, day, hour, minute, second, microsecond)
+ 
+        return new_dt
     
     def parsePid(self, token):
         try:
