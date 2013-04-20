@@ -7,22 +7,23 @@
 # ------------------------------------------------------
 
 # Libs
-from Type import Type
+from EventType import EventType
 from Metadata import Metadata
-from Signature import Signature
+from EventSignature import Signature
 
 class Event(object):
     """This class represents an event."""
     
-    def __init__(self, name='Generic Event', type=Type.NONE, signature=Signature(), metadata=Metadata()):
+    def __init__(self, name='Generic Event', event_type=EventType.NONE, signatures=[], metadata=Metadata()):
         self.name = name
-        self.type = type
-        self.signature = signature
+        self.event_type = event_type
+        self.signatures = signatures
         self.metadata = metadata
             
     def __str__(self):
-        
-        return 'Type: %s Data: %s Timestamp: %s' % (EventType.pprint(self.type), self.data, time_str)
+        output = 'Event name: %s\tType: %s\tSignature: %s\tMetadata: %s' % \
+                 (self.name, EventType.prettyPrint(self.event_type), str(self.signature), str(self.metadata))
+        return output
     
     def __repr__(self):
         return str(self)

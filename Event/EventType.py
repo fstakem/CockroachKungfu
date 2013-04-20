@@ -1,6 +1,6 @@
 # ------------------------------------------------------
 #
-#   Type.py
+#   EventType.py
 #   By: Fred Stakem
 #   Created: 3.10.13
 #
@@ -13,7 +13,7 @@ import logging
 # Classes
 import Utilities
 
-class Type(object):
+class EventType(object):
     """This class represents an event type that occurs in a log."""
        
     # Setup logging
@@ -35,8 +35,8 @@ class Type(object):
                     }
     
     @classmethod
-    def prettyPrint(cls, token_type):
-        return cls.readable_name[token_type]
+    def prettyPrint(cls, event_type):
+        return cls.readable_name[event_type]
     
     
     

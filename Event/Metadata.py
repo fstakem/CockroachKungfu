@@ -13,3 +13,17 @@ class Metadata(object):
     
     def __init__(self):
         pass
+    
+    def __str__(self):
+        variables = vars(self)
+        output = ''
+        
+        for name, value in variables.iteritems():
+            output += 'Var name: %s\tVar value: %s\t' % (name. str(value))
+            
+        output = output[:-1]
+        
+        return output
+    
+    def __repr__(self):
+        return str(self)
