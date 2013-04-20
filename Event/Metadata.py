@@ -1,15 +1,15 @@
 # ------------------------------------------------------
 #
-#   LogMetaData.py
+#   Metadata.py
 #   By: Fred Stakem
-#   Created: 3.10.13
+#   Created: 4.20.13
 #
 # ------------------------------------------------------
 
 # Libs
 
-class LogMetaData(object):
-    """This class represents a meta data for a structured log."""
+class Metadata(object):
+    """This class represents a meta data for an event."""
     
     def __init__(self):
         pass

@@ -1,16 +1,15 @@
 # ------------------------------------------------------
 #
-#   EventSet.py
+#   Sample.py
 #   By: Fred Stakem
-#   Created: 3.10.13
+#   Created: 4.20.13
 #
 # ------------------------------------------------------
 
 # Libs
 
-class EventSet(object):
-    """This class represents a set of events that will possibly be in a log."""
+class Sample(object):
+    """This class represents a sample of an event."""
     
     def __init__(self):
         pass
-        
