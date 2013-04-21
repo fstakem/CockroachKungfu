@@ -7,14 +7,23 @@
 # ------------------------------------------------------
 
 # Libs
-from LogParser import Log
-from LogMetaData import LogMetaData
+from Metadata import Metadata
 
 class StructuredLog(object):
     """This class represents a structured log where structured data is held."""
     
-    def __init__(self, unstructured_log=Log(), metadata=LogMetaData(), \
-                 line_metadata={}):
-        self.unstructured_log = unstructured_log
+    def __init__(self, name='Generic structured log', events=[], metadata=Metadata()):
+        self.name = name
+        self.events = events
         self.metadata = metadata
-        self.line_metadata = line_metadata
+        
+    def __str__(self):
+        output = 'Log name: %s\tNumber of events: %d\tMetadata: %s' % \
+                 (self.name, len(self.events), str(self.metadata))
+        return output
+    
+    def __repr__(self):
+        return str(self)
+    
+    def findEventsInLog(self, log):
+        pass
