@@ -43,7 +43,7 @@ class Parser(BaseParser):
         return (log, errors) 
     
     def parseLogLine(self, line):
-        log_line = LogLine()
+        log_line = LogLine(line)
         self.scanner.reset(line)
         
         while True:

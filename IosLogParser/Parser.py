@@ -51,7 +51,7 @@ class Parser(BaseParser):
     
     @debug_log(logger, globals.debug_parse)
     def parseLogLine(self, line):
-        log_line = LogLine()
+        log_line = LogLine(line)
         self.scanner.reset(line)
         
         while True:

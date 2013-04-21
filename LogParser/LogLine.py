@@ -11,5 +11,5 @@
 class LogLine(object):
     """This class represents a log line where parsed data is held."""
     
-    def __init__(self):
-        pass
+    def __init__(self, raw_data=''):
+        self.raw_data = raw_data

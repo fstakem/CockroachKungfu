@@ -15,9 +15,10 @@ LogLevel = Utilities.enum('Verbose', 'Info', 'Debug', 'Warn', 'Error', 'Assert')
 
 class LogLine(BaseLogLine):
     
-    def __init__(self, timestamp=datetime.datetime.now(), pid=-1, 
+    def __init__(self, raw_data='', timestamp=datetime.datetime.now(), pid=-1, 
                  tid=-1, level=LogLevel.Verbose, source='Main', 
                  msg='Android log msg.'):
+        super(LogLine, self).__init__(raw_data)
         self.timestamp = timestamp
         self.pid = pid
         self.tid = tid

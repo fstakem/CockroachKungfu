@@ -21,8 +21,8 @@ class Token(BaseToken):
     # Setup logging
     logger = Utilities.getLogger('IosLogParser::Token')
     
-    def __init__(self, type=TokenType.NONE, data=None, start_position=-1, end_position=-1):
-        super(Token, self).__init__(type, data, start_position, end_position)
+    def __init__(self, token_type=TokenType.NONE, data=None, start_position=-1, end_position=-1):
+        super(Token, self).__init__(token_type, data, start_position, end_position)
         
     def __str__(self):
         return 'Type: %s Data: %s Position: %s to %s' % (TokenType.prettyPrint(self.type), 

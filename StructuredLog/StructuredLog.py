@@ -8,6 +8,7 @@
 
 # Libs
 from Metadata import Metadata
+from StructuredLogSample import StructuredLogSample
 
 class StructuredLog(object):
     """This class represents a structured log where structured data is held."""
@@ -25,5 +26,8 @@ class StructuredLog(object):
     def __repr__(self):
         return str(self)
     
-    def findEventsInLog(self, log):
-        pass
+    def findEventsInLog(self, name, log):
+        log_sample = StructuredLogSample(name, self)
+        
+        for line in log.lines:
+            pass

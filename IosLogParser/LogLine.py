@@ -12,8 +12,9 @@ from LogParser import LogLine as BaseLogLine
 
 class LogLine(BaseLogLine):
     
-    def __init__(self, timestamp=datetime.datetime.now(), pid=-1, 
+    def __init__(self, raw_data='', timestamp=datetime.datetime.now(), pid=-1, 
                  mach_port=-1, source='Main', msg='iOS log msg.'):
+        super(LogLine, self).__init__(raw_data)
         self.timestamp = timestamp
         self.source = source
         self.pid = pid
