@@ -14,7 +14,7 @@ from Match import Match
 class Sample(object):
     """This class represents a sample of an event."""
     
-    def __init__(self, name='Generic sample', event=Event(), timestamp=datetime(), match=Match()):
+    def __init__(self, name='Generic sample', event=Event(), timestamp=datetime.now(), match=Match()):
         self.name = name
         self.event = event
         self.timestamp = timestamp

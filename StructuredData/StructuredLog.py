@@ -7,6 +7,7 @@
 # ------------------------------------------------------
 
 # Libs
+from Event import Event
 from Metadata import Metadata
 from StructuredLogSample import StructuredLogSample
 
@@ -27,7 +28,7 @@ class StructuredLog(object):
         return str(self)
     
     def findEventsInLog(self, name, log):
-        log_sample = StructuredLogSample(name, self)
-        
-        for line in log.lines:
-            pass
+        log_sample = StructuredLogSample(name, self, log)
+        log_sample.findEventsInLog()
+            
+        return log_sample

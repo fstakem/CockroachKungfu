@@ -9,7 +9,7 @@
 # Libs
 from EventType import EventType
 from Metadata import Metadata
-from EventSignature import Signature
+from Signature import Signature
 
 class Event(object):
     """This class represents an event."""
@@ -27,6 +27,17 @@ class Event(object):
     
     def __repr__(self):
         return str(self)
+    
+    def matchesSignature(self, log_line):
+        matches = []
+        
+        for signature in self.signatures:
+            match = signature.isMatch(log_line)
+            
+            if match != None:
+                matches.append(match)
+        
+        return matches
     
  
     
