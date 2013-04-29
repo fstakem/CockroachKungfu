@@ -7,11 +7,11 @@
 # ------------------------------------------------------
 
 
-# Libraries
+# Libs
 import logging
 
-# Classes
-import Utilities
+# User defined
+from Utilities import *
 from TokenType import TokenType
 from LogParser import Token as BaseToken
 

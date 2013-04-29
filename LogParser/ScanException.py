@@ -7,10 +7,11 @@
 # ------------------------------------------------------
 
 
-# Libraries
+# Libs
 import sys
 
-# Classes
+# User defined
+# None
 
 class ScanException(Exception):
     """This class represents an exception caused when scanning."""

@@ -6,7 +6,11 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
 from LogParser import Log as BaseLog
 
 class Log(BaseLog):

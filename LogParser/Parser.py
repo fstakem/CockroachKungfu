@@ -7,6 +7,10 @@
 # ------------------------------------------------------
 
 # Libs
+# None
+
+# User defined
+# None
 
 class Parser(object):
     """This class represents a parser to parse log files."""

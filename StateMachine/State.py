@@ -6,7 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
+# None
 
 class State(object):
     """This class represents a state of a state machine."""

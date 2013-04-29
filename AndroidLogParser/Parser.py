@@ -6,11 +6,14 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
 from datetime import datetime
 import Utilities
-from LogParser import Symbol
+
+# User defined
 from LogParser import Parser as BaseParser
+from LogParser import Symbol
 from LogParser import ScanException
 from LogParser import ParseException
 from LogLine import LogLine
@@ -26,7 +29,8 @@ class Parser(BaseParser):
     
     def __init__(self, name, scanner):
         super(Parser, self).__init__(name, scanner)
-    
+        self.__import__()
+        
     def parse(self, name, log_lines):
         parsed_lines = []
         errors = []

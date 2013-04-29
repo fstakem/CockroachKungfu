@@ -7,10 +7,10 @@
 # ------------------------------------------------------
 
 
-# Libraries
+# Libs
 import logging
 
-# Classes
+# User defined
 import Utilities
 from TokenType import TokenType
 from LogParser import Token as BaseToken

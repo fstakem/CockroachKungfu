@@ -7,6 +7,10 @@
 # ------------------------------------------------------
 
 # Libs
+# None
+
+# User defined
+# None
 
 class LogLine(object):
     """This class represents a log line where parsed data is held."""

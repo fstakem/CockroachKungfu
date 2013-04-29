@@ -6,14 +6,17 @@
 #
 # ------------------------------------------------------
 
+
+# Libs
+import logging
+import sys
+
+# User defined
+# None
+
 def enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)
     return type('Enum', (), enums)
-
-
-# Libraries
-import logging
-import sys
 
 def getLogger(name='GenericLogger'):
     logger = logging.getLogger(name)

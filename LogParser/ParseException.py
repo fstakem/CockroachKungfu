@@ -6,10 +6,12 @@
 #
 # ------------------------------------------------------
 
-# Libraries
+
+# Libs
 import sys
 
-# Classes
+# User defined
+# None
 
 class ParseException(Exception):
     """This class represents an exception caused when parsing."""

@@ -6,10 +6,13 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
 from EventType import EventType
 from Metadata import Metadata
-from Signature import Signature
 
 class Event(object):
     """This class represents an event."""

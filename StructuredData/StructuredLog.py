@@ -6,8 +6,11 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
-from Event import Event
+# None
+
+# User defined
 from Metadata import Metadata
 from StructuredLogSample import StructuredLogSample
 

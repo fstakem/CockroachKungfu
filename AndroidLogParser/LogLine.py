@@ -6,8 +6,11 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
 import datetime
+
+# User defined
 import Utilities
 from LogParser import LogLine as BaseLogLine
 
@@ -27,9 +30,9 @@ class LogLine(BaseLogLine):
         self.msg = msg
     
     def __str__(self):
-        return str(self.timestamp) + ' ' + str(self.pid) + ' ' + \
-               str(self.tid) + ' ' + str(self.level) + ' ' + \
-               str(self.source) + ' '  + self.msg
+        return str(self.timestamp) + '\t' + str(self.pid) + '\t' + \
+               str(self.tid) + '\t' + str(self.level) + '\t' + \
+               str(self.source) + '\t'  + self.msg
                   
     def __repr__(self):
         return str(self)

@@ -7,11 +7,11 @@
 # ------------------------------------------------------
 
 
-# Libraries
+# Libs
 import logging
 
-# Classes
-import Utilities
+# User defined
+from Utilities import *
 
 class EventType(object):
     """This class represents an event type that occurs in a log."""

@@ -6,7 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
+# None
 
 class Metadata(object):
     """This class represents a meta data for an event."""

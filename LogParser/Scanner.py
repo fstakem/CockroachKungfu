@@ -6,10 +6,11 @@
 #
 # ------------------------------------------------------
 
-# Libraries
+
+# Libs
 import logging
 
-# Classes
+# User defined
 from Globals import *
 from Utilities import *
 from Symbol import Symbol

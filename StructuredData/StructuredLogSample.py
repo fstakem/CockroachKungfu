@@ -6,9 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
 from LogParser import Log
-#from StructuredLog import StructuredLog
 
 class StructuredLogSample(object):
     """This class represents a structured log sample where structured data is held."""

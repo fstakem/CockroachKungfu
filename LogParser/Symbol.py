@@ -7,9 +7,9 @@
 # ------------------------------------------------------
 
 
-# Libraries
+# Libs
 
-# Classes
+# User defined
 import Utilities
 
 class Symbol(object):

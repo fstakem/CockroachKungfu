@@ -6,7 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
+# None
 
 class TokenType(object):
     """This class represents a token type that is found in a scanned file."""

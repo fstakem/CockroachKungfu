@@ -6,9 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
 from Globals import *
 from Utilities import *
+
+# User defined
 from LogParser import Symbol
 from LogParser import Scanner as BaseScanner
 from LogParser import ScanException

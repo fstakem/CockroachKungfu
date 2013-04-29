@@ -6,7 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
+# None
 
 class StateTransition(object):
     """This class represents a state transition of a state machine."""

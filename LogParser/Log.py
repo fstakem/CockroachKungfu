@@ -6,7 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
+None
 
 class Log(object):
     """This class represents a log where parsed data is held."""

@@ -6,7 +6,12 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
+# None
 
 class ScannerState(object):
     """This class represents the state of the scanner."""

@@ -7,6 +7,9 @@
 # ------------------------------------------------------
 
 # Libs
+# None
+
+# User defined
 from LogParser import ScannerState as BaseScannerState
 
 class ScannerState(object):

@@ -6,7 +6,11 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
+# None
+
+# User defined
 from Globals import *
 from Utilities import *
 from LogParser import Symbol

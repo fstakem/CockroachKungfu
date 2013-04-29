@@ -8,6 +8,9 @@
 
 
 # Libs
+# None
+
+# User defined
 from LogParser import TokenType as BaseTokenType
 
 class TokenType(BaseTokenType):

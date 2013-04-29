@@ -6,8 +6,11 @@
 #
 # ------------------------------------------------------
 
+
 # Libs
 import re
+
+# User defined
 from Match import Match
 from MatchType import MatchType
 
@@ -47,7 +50,9 @@ class Signature(object):
         elif self.match_type == MatchType.CONTAINS_CASE_IN:
             is_match = self.isContainsMatch(log_line, False)
         elif self.match_type == MatchType.REGEX:
-            is_match = self.isRegexMatch(log_line)
+            is_match = self.isRegexMatch(log_line, True)
+        elif self.match_type == MatchType.REGEX_CASE_IN:
+            is_match = self.isRegexMatch(log_line, False)
             
         if is_match:
             return self.createMatch()
@@ -65,7 +70,7 @@ class Signature(object):
                 return True
         elif log_value == self.expected_value:
             return True
-            
+        
         return False
     
     def isStartsWithMatch(self, log_line, case_sensitive):
@@ -116,14 +121,24 @@ class Signature(object):
             
         return False
     
-    def isRegexMatch(self, log_line):
+    def isRegexMatch(self, log_line, case_sensitive):
         log_value = self.getValue(log_line)
         
         if log_value == None:
             return False
         
         if type(self.expected_value) == str and type(log_value) == str:
-            pass
+            regex = None
+            if not case_sensitive:
+                regex = re.compile(self.expected_value, re.IGNORECASE)
+            else:
+                regex = re.compile(self.expected_value)
+                
+            matches = regex.findall(log_value)
+            
+            # TODO - redo this
+            if len(matches) > 0:
+                return True
             
         return False
     
