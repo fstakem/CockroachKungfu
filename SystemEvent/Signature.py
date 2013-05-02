@@ -55,8 +55,8 @@ class Signature(object):
             is_match = self.isRegexMatch(log_line, False)
             
         if is_match:
-            return self.createMatch()
-        
+            return Match(self.match_type, log_line)
+            
         return None
     
     def isExactMatch(self, log_line, case_sensitive):
@@ -136,7 +136,6 @@ class Signature(object):
                 
             matches = regex.findall(log_value)
             
-            # TODO - redo this
             if len(matches) > 0:
                 return True
             
@@ -147,11 +146,6 @@ class Signature(object):
             return log_line.__getattribute__(self.field_name)
         except AttributeError:
             return None
-    
-    def createMatch(self):
-        match = Match()
-        
-        return match
     
     
     

@@ -60,9 +60,9 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isMatch(self.log_line)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
-        # TODO -> test the returned match to make sure it is correct
+        assert match != None, 'Match was not found in log line.'
         
         SignatureTest.logger.debug('Test succeeded!')
      
@@ -75,7 +75,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isExactMatch(self.log_line, True)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Exact match was not found in log line.'
         
@@ -90,7 +90,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isExactMatch(self.log_line, False)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Exact match was not found in log line.'
         
@@ -105,7 +105,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isStartsWithMatch(self.log_line, True)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Starts with match was not found in log line.'
         
@@ -120,7 +120,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isStartsWithMatch(self.log_line, False)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Starts with match was not found in log line.'
         
@@ -135,7 +135,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isEndsWithMatch(self.log_line, True)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Ends with match was not found in log line.'
         
@@ -150,7 +150,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isEndsWithMatch(self.log_line, False)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Ends with match was not found in log line.'
         
@@ -165,7 +165,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isContainsMatch(self.log_line, True)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Contains match was not found in log line.'
         
@@ -180,7 +180,7 @@ class SignatureTest(unittest.TestCase):
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isContainsMatch(self.log_line, False)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Contains match was not found in log line.'
         
@@ -190,12 +190,12 @@ class SignatureTest(unittest.TestCase):
     def testIsRegexMatch(self):
         match_type = MatchType.REGEX
         field_name = 'mach_port'
-        match_value = '[a-zA-Z]*[0-9]*'
+        match_value = '[a-zA-Z][0-9][0-9]'
         signature = Signature(match_type, field_name, match_value)
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isRegexMatch(self.log_line, True)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Regex match was not found in log line.'
         
@@ -205,12 +205,12 @@ class SignatureTest(unittest.TestCase):
     def testIsRegexCaseInMatch(self):
         match_type = MatchType.REGEX_CASE_IN
         field_name = 'mach_port'
-        match_value = '[a-zA-Z]*[0-9]*'
+        match_value = '[A-Z][0-9][0-9]'
         signature = Signature(match_type, field_name, match_value)
         self.logDetailedInfo('Signature:', signature)
         
         match = signature.isRegexMatch(self.log_line, False)
-        self.logDetailedInfo('Match:', signature)
+        self.logDetailedInfo('Match:', match)
         
         assert match != False, 'Regex match was not found in log line.'
         
