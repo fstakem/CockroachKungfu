@@ -24,14 +24,16 @@ class Event(object):
         self.metadata = metadata
             
     def __str__(self):
-        output = 'Event name: %s\tType: %s\tSignature: %s\tMetadata: %s' % \
-                 (self.name, EventType.prettyPrint(self.event_type), str(self.signature), str(self.metadata))
+        output = 'Event name: %s\tType: %s\t' % (self.name, EventType.prettyPrint(self.event_type))
+        for i, signature in enumerate(self.signatures):
+            output += 'Signature(%d):\t%s\t' % ( (i+1), str(signature) )
+        output += 'Metadata: %s' % (str(self.metadata))
         return output
     
     def __repr__(self):
         return str(self)
     
-    def matchesSignature(self, log_line):
+    def getSignatureMatches(self, log_line):
         matches = []
         
         for signature in self.signatures:
