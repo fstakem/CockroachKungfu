@@ -70,9 +70,9 @@ class StructuredLogSampleTest(unittest.TestCase):
         
         structured_log_sample.findEventsInLog()
         found_events = structured_log_sample.event_matches
+        StructuredLogSampleTest.logger.debug('Found %d matches in the log.' % (len(found_events)))
         
-        # Do mulitple tests of the data
-        #assert len(matches) > 0, 'Match was not found in log line.'
+        assert len(found_events) == 2, 'Incorrect number of matches found in the log.'
         
         StructuredLogSampleTest.logger.debug('Test succeeded!')
         

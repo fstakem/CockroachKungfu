@@ -24,7 +24,7 @@ class StructuredLogSample(object):
         
     def __str__(self):
         output = 'Log sample name: %s\tLog: %s\tNumber of event found: %d' % \
-                 (self.name, str(self.structured_log), len(self.event_samples))
+                 (self.name, str(self.structured_log), len(self.event_matches))
         return output
     
     def __repr__(self):
@@ -35,8 +35,9 @@ class StructuredLogSample(object):
         
         for line in self.log.lines:
             for event in self.structured_log.events:
-                matches = event.matchesSignatures(line)
-                if len(matches) > 0:
-                    self.event_matches.extend(matches)
+                for signature in event.signatures:
+                    match = signature.isMatch(line)
+                    if match != None:
+                        self.event_matches.append(match)
                 
     

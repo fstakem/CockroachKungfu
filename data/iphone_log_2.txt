@@ -20,7 +20,3 @@
 2013-03-22 22:18:05.144 MobileCalculator[22262:c07] Digit pressed: 4
 2013-03-22 22:18:05.786 MobileCalculator[22262:c07] Digit pressed: 5
 2013-03-22 22:18:06.187 MobileCalculator[22262:c07] Digit pressed: 8
-
-
-
-
